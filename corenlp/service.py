@@ -1,3 +1,5 @@
+import os
+
 import zmq
 
 from corenlp.models import CoreNLP
