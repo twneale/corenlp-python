@@ -10,6 +10,7 @@ class Service:
 
     def __init__(self):
         self._broker_host = os.environ.get('CORENLP_BROKER_HOST', 'localhost')
+        print('corenlp connecting to host: %r' % self._broker_host)
         self._broker_port = os.environ.get('CORENLP_BROKER_PORT', '5559')
         context = zmq.Context()
         self.socket = context.socket(zmq.REQ)
