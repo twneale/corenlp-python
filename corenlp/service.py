@@ -12,9 +12,14 @@ class Service:
         self._broker_host = os.environ.get('CORENLP_BROKER_HOST', 'localhost')
         print('corenlp connecting to host: %r' % self._broker_host)
         self._broker_port = os.environ.get('CORENLP_BROKER_PORT', '5559')
-        context = zmq.Context()
-        self.socket = context.socket(zmq.REQ)
+
+    def __enter__(self):
+        self.context = zmq.Context()
+        self.socket = self.context.socket(zmq.REQ)
         self.socket.connect("tcp://%s:%s" % (self._broker_host, self._broker_port))
+
+    def __exit__(self, *args):
+        self.context.destroy()
 
     def send(self, string, annotators=None):
         obj = dict(annotators=self.default_annotators, text=string)
